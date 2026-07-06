@@ -1,0 +1,35 @@
+{
+  "name": "aci-safe-terminal",
+  "version": "1.0.0",
+  "description": "Zero-trust CLI-first orchestration framework for AI agents",
+  "type": "module",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc",
+    "start": "npm run build && node dist/src/index.js",
+    "start:dev": "npm run build && node dist/src/index.js dev",
+    "start:qa": "npm run build && node dist/src/index.js qa",
+    "test": "node --test tests/"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.1079.0",
+    "dotenv": "^16.4.5",
+    "jira.js": "^5.3.1",
+    "unbash": "4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.125.0",
+    "typescript": "^5.3.3"
+  },
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "VAMOS.chat",
+        "name": "VAMOS",
+        "description": "Your fast-moving coding partner."
+      }
+    ]
+  }
+}

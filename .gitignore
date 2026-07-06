@@ -1,0 +1,19 @@
+# Dependency Directories
+node_modules/
+jspm_packages/
+
+# Environment Variables & Secrets (CRITICAL)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Dynamic Agent Logs and Context Dumps
+*.log
+debug.log
+workspace/tmp/

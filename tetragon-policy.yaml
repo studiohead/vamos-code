@@ -1,0 +1,63 @@
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: "secure-agent-sandbox-containment"
+spec:
+  # 1. PROCESS BINARY WHITE-LISTING: Block and kill arbitrary binaries
+  kprobes:
+    - call: "sys_execve"
+      syscall: true
+      args:
+        - index: 0
+          type: "string" # Full path to binary
+      selectors:
+        - matchArgs:
+            - index: 0
+              operator: "NotIn"
+              values:
+                - "/bin/ls"
+                - "/bin/mkdir"
+                - "/bin/touch"
+                - "/bin/echo"
+                - "/bin/git"
+                - "/usr/bin/node"
+                - "/usr/bin/npm"
+                - "/bin/bash"
+                - "/bin/sh"
+          matchActions:
+            - action: Sigkill
+
+    # 2. PATH TRAVERSAL PREVENTATIVE BARRIER: Enforce strict workspace isolation
+    - call: "sys_openat"
+      syscall: true
+      args:
+        - index: 1
+          type: "string" # Target path requested
+      selectors:
+        - matchArgs:
+            - index: 1
+              operator: "PrefixNotIn"
+              values:
+                - "/app/workspace/"
+                - "/workspace/"
+                - "./workspace/"
+                - "/usr/lib/"      # Necessary system library resolution paths
+                - "/lib/"
+                - "/proc/"
+          matchActions:
+            - action: Sigkill
+
+    # 3. SECRET CREDENTIAL EXFILTRATION PROTECTION: Block network leaks
+    - call: "sys_connect"
+      syscall: true
+      args:
+        - index: 1
+          type: "sockaddr" # Socket connection struct parameters
+      selectors:
+        - matchArgs:
+            - index: 1
+              operator: "PrefixIn"
+              values:
+                - "169.254.169.254" # Strict containment on AWS/Cloud Metadata Token endpoints
+          matchActions:
+            - action: Sigkill

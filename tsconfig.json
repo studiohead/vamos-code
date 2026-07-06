@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    /* Target Environment & Module Alignment */
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022", "ESNext.AsyncIterable"],
+    
+    /* Directories */
+    "outDir": "./dist",
+    /* REMOVED: "rootDir": "./src" - Removing this allows bin/ and src/ to coexist */
+
+    /* Type Checking Rigor */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    
+    /* Interoperability */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*", "bin/**/*"]
+}
