@@ -9,7 +9,7 @@ A secure, sandboxed orchestration environment that runs multi-turn developer age
                             │ Returns Tasks or Code/Bash
                             ▼
 ┌────────────────────────────────────────────────────────┐
-│               2. THE VAMANOS DISPATCHER                │
+│               2. THE VAMOS DISPATCHER                │
 │       index.ts (Routing, Telemetry, Guard Rails)       │
 └───────────────┬───────────────────────────────┬────────┘
                 │ Routes to Agent Personality   │
